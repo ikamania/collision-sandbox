@@ -41,6 +41,16 @@ pub fn build(b: *std.Build) void {
         .target = target,
     });
 
+    // translate src/c.h into a zig module
+    const translate_c = b.addTranslateC(.{
+        .root_source_file = b.path("src/c.h"),
+        .target = target,
+        .optimize = optimize,
+    });
+    // link the compiled CSFML libnraries to the final executable
+    translate_c.linkSystemLibrary("csfml-graphics", .{});
+    translate_c.linkSystemLibrary("csfml-window", .{});
+
     // Here we define an executable. An executable needs to have a root module
     // which needs to expose a `main` function. While we could add a main function
     // to the module defined above, it's sometimes preferable to split business
@@ -79,6 +89,8 @@ pub fn build(b: *std.Build) void {
                 // can be extremely useful in case of collisions (which can happen
                 // importing modules from different packages).
                 .{ .name = "zig_collision", .module = mod },
+                // create the main executable module
+                .{ .name = "c", .module = translate_c.createModule() },
             },
         }),
     });
