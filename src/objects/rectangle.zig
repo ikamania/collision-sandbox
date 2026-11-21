@@ -17,8 +17,4 @@ pub const Rectangle = struct {
             .height = size,
         }, .width = size, .height = size, .color = color };
     }
-
-    pub fn update(self: *Rectangle, dt: f32, width: f32, height: f32) void {
-        self.body.update(dt, width, height);
-    }
 };

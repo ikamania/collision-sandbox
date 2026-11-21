@@ -16,8 +16,4 @@ pub const Circle = struct {
             .height = radius * 2,
         }, .radius = radius, .color = color };
     }
-
-    pub fn update(self: *Circle, dt: f32, width: f32, height: f32) void {
-        self.body.update(dt, width, height);
-    }
 };
