@@ -2,10 +2,9 @@ const std = @import("std");
 const c = @import("c");
 
 const Renderer = @import("renderer.zig").Renderer;
+const Shape = @import("objects/shape.zig").Shape;
 const Circle = @import("objects/circle.zig").Circle;
 const Rectangle = @import("objects/rectangle.zig").Rectangle;
-
-const Shape = union(enum) { circle: Circle, rectangle: Rectangle };
 
 const width = 800;
 const height = 600;
@@ -56,11 +55,11 @@ pub fn main() void {
             switch (shape.*) { // derefernce pointer (pointer.*)
                 .circle => |*circle| {
                     circle.update(dt, width, height);
-                    renderer.drawcircle(circle);
+                    renderer.drawCircle(circle);
                 },
                 .rectangle => |*rectangle| {
                     rectangle.update(dt, width, height);
-                    renderer.drawrectangle(rectangle);
+                    renderer.drawRectangle(rectangle);
                 },
             }
         }
