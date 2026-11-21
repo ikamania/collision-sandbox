@@ -3,6 +3,9 @@ const c = @import("c");
 
 const Renderer = @import("renderer.zig").Renderer;
 const Circle = @import("objects/circle.zig").Circle;
+const Rectangle = @import("objects/rectangle.zig").Rectangle;
+
+const Shape = union(enum) { circle: Circle, rectangle: Rectangle };
 
 const width = 800;
 const height = 600;
@@ -25,12 +28,20 @@ pub fn main() void {
     defer c.sfClock_destroy(clock);
 
     //
-    var ball = Circle.init(
-        .{ .x = 200, .y = 200 },
-        .{ .x = 100, .y = -200 },
-        25,
-        c.sfRed,
-    );
+    var shapes = [_]Shape{
+        .{ .circle = Circle.init(
+            .{ .x = 300, .y = 300 },
+            .{ .x = 100, .y = -200 },
+            25,
+            c.sfRed,
+        ) },
+        .{ .rectangle = Rectangle.init(
+            .{ .x = 200, .y = 200 },
+            .{ .x = 400, .y = 100 },
+            25,
+            c.sfBlue,
+        ) },
+    };
 
     while (c.sfRenderWindow_isOpen(window)) {
         while (c.sfRenderWindow_pollEvent(window, &event)) {
@@ -40,10 +51,19 @@ pub fn main() void {
         }
         const dt = c.sfTime_asSeconds(c.sfClock_restart(clock));
 
-        ball.update(dt, width, height);
-
         renderer.clear(c.sfWhite);
-        renderer.drawCircle(&ball);
+        for (&shapes) |*shape| {
+            switch (shape.*) { // derefernce pointer (pointer.*)
+                .circle => |*circle| {
+                    circle.update(dt, width, height);
+                    renderer.drawcircle(circle);
+                },
+                .rectangle => |*rectangle| {
+                    rectangle.update(dt, width, height);
+                    renderer.drawrectangle(rectangle);
+                },
+            }
+        }
         renderer.display();
     }
 }
