@@ -16,12 +16,16 @@ pub fn main() void {
 
     var event: c.sfEvent = undefined;
 
+    const clock = c.sfClock_create() orelse return;
+    defer c.sfClock_destroy(clock);
+
     while (c.sfRenderWindow_isOpen(window)) {
         while (c.sfRenderWindow_pollEvent(window, &event)) {
             if (event.type == c.sfEvtClosed) {
                 c.sfRenderWindow_close(window);
             }
         }
+        const dt = c.sfTime_asSeconds(c.sfClock_restart(clock));
 
         renderer.clear(c.sfWhite);
         renderer.display();
