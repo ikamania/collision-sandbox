@@ -1,5 +1,6 @@
 const c = @import("c");
 const Circle = @import("objects/circle.zig").Circle;
+const Rectangle = @import("objects/rectangle.zig").Rectangle;
 
 pub const Renderer = struct {
     window: *c.sfRenderWindow,
@@ -33,5 +34,27 @@ pub const Renderer = struct {
             shape,
             null,
         );
+        c.sfCircleShape_destroy(shape);
+    }
+
+    pub fn drawRectangle(self: *Renderer, rectangle: *Rectangle) void {
+        const shape = c.sfRectangleShape_create();
+
+        c.sfRectangleShape_setSize(shape, .{
+            .x = rectangle.width,
+            .y = rectangle.height,
+        });
+        c.sfRectangleShape_setPosition(shape, .{
+            .x = rectangle.body.position.x,
+            .y = rectangle.body.position.y,
+        });
+        c.sfRectangleShape_setFillColor(shape, rectangle.color);
+
+        c.sfRenderWindow_drawRectangleShape(
+            self.window,
+            shape,
+            null,
+        );
+        c.sfRectangleShape_destroy(shape);
     }
 };
