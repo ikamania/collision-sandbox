@@ -2,6 +2,8 @@ const std = @import("std");
 const c = @import("c");
 
 const Renderer = @import("renderer.zig").Renderer;
+const ObjectManager = @import("physics/objectManager.zig").ObjectManager;
+
 const Shape = @import("objects/shape.zig").Shape;
 const Circle = @import("objects/circle.zig").Circle;
 const Rectangle = @import("objects/rectangle.zig").Rectangle;
@@ -41,6 +43,9 @@ pub fn main() void {
             c.sfBlue,
         ) },
     };
+    var objectManager = ObjectManager{
+        .shapes = &shapes,
+    };
 
     while (c.sfRenderWindow_isOpen(window)) {
         while (c.sfRenderWindow_pollEvent(window, &event)) {
@@ -54,15 +59,14 @@ pub fn main() void {
         for (&shapes) |*shape| {
             switch (shape.*) { // derefernce pointer (pointer.*)
                 .circle => |*circle| {
-                    circle.update(dt, width, height);
                     renderer.drawCircle(circle);
                 },
                 .rectangle => |*rectangle| {
-                    rectangle.update(dt, width, height);
                     renderer.drawRectangle(rectangle);
                 },
             }
         }
+        objectManager.update(dt, width, height);
         renderer.display();
     }
 }
