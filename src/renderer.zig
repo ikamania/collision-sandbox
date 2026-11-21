@@ -1,4 +1,5 @@
 const c = @import("c");
+const Circle = @import("objects/circle.zig").Circle;
 
 pub const Renderer = struct {
     window: *c.sfRenderWindow,
@@ -15,5 +16,22 @@ pub const Renderer = struct {
 
     pub fn display(self: *Renderer) void {
         c.sfRenderWindow_display(self.window);
+    }
+
+    pub fn drawCircle(self: *Renderer, circle: *Circle) void {
+        const shape = c.sfCircleShape_create();
+
+        c.sfCircleShape_setRadius(shape, circle.radius);
+        c.sfCircleShape_setPosition(shape, .{
+            .x = circle.body.position.x,
+            .y = circle.body.position.y,
+        });
+        c.sfCircleShape_setFillColor(shape, circle.color);
+
+        c.sfRenderWindow_drawCircleShape(
+            self.window,
+            shape,
+            null,
+        );
     }
 };
