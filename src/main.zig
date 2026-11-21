@@ -4,9 +4,12 @@ const c = @import("c");
 const Renderer = @import("renderer.zig").Renderer;
 const Circle = @import("objects/circle.zig").Circle;
 
+const width = 800;
+const height = 600;
+
 pub fn main() void {
     const window = c.sfRenderWindow_create(
-        .{ .size = .{ .x = 800, .y = 600 }, .bitsPerPixel = 32 },
+        .{ .size = .{ .x = width, .y = height }, .bitsPerPixel = 32 },
         "zig-collision",
         c.sfDefaultStyle,
         0,
@@ -24,7 +27,7 @@ pub fn main() void {
     //
     var ball = Circle.init(
         .{ .x = 200, .y = 200 },
-        .{ .x = 10, .y = 15 },
+        .{ .x = 100, .y = -200 },
         25,
         c.sfRed,
     );
@@ -37,7 +40,7 @@ pub fn main() void {
         }
         const dt = c.sfTime_asSeconds(c.sfClock_restart(clock));
 
-        ball.update(dt);
+        ball.update(dt, width, height);
 
         renderer.clear(c.sfWhite);
         renderer.drawCircle(&ball);
