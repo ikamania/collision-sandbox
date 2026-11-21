@@ -3,8 +3,8 @@ const c = @import("c");
 
 pub fn main() void {
     const window = c.sfRenderWindow_create(
-        .{ .size = .{ .x = 400, .y = 300 }, .bitsPerPixel = 32 },
-        "sfml",
+        .{ .size = .{ .x = 800, .y = 600 }, .bitsPerPixel = 32 },
+        "zig-collision",
         c.sfDefaultStyle,
         0,
         null,
