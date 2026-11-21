@@ -1,5 +1,6 @@
 const std = @import("std");
 const c = @import("c");
+const Renderer = @import("renderer.zig").Renderer;
 
 pub fn main() void {
     const window = c.sfRenderWindow_create(
@@ -8,8 +9,10 @@ pub fn main() void {
         c.sfDefaultStyle,
         0,
         null,
-    );
+    ) orelse return; // handle optional pointer return
     defer c.sfRenderWindow_destroy(window);
+
+    var renderer = Renderer.init(window);
 
     var event: c.sfEvent = undefined;
 
@@ -20,7 +23,7 @@ pub fn main() void {
             }
         }
 
-        c.sfRenderWindow_clear(window, c.sfBlack);
-        c.sfRenderWindow_display(window);
+        renderer.clear(c.sfWhite);
+        renderer.display();
     }
 }
