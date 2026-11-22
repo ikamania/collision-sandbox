@@ -30,19 +30,14 @@ pub fn main() void {
 
     //
     var shapes = [_]Shape{
-        .{ .circle = Circle.init(
-            .{ .x = 300, .y = 300 },
-            .{ .x = 100, .y = -200 },
-            50,
-            c.sfRed,
-        ) },
-        .{ .rectangle = Rectangle.init(
-            .{ .x = 200, .y = 200 },
-            .{ .x = 400, .y = 100 },
-            100,
-            50,
-            c.sfBlue,
-        ) },
+        .{ .circle = Circle.init(.{ .x = 300, .y = 300 }, .{ .x = 100, .y = -200 }, 50, c.sfRed) },
+        .{ .rectangle = Rectangle.init(.{ .x = 200, .y = 200 }, .{ .x = 400, .y = 100 }, 100, 50, c.sfBlue) },
+
+        .{ .circle = Circle.init(.{ .x = 500, .y = 150 }, .{ .x = -180, .y = 120 }, 30, c.sfGreen) },
+        .{ .rectangle = Rectangle.init(.{ .x = 700, .y = 300 }, .{ .x = -250, .y = 180 }, 80, 80, c.sfYellow) },
+
+        .{ .circle = Circle.init(.{ .x = 900, .y = 500 }, .{ .x = 220, .y = -160 }, 65, c.sfMagenta) },
+        .{ .rectangle = Rectangle.init(.{ .x = 400, .y = 600 }, .{ .x = 150, .y = -300 }, 120, 40, c.sfCyan) },
     };
     var objectManager = ObjectManager{
         .shapes = &shapes,
