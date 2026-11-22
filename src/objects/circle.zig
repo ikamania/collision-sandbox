@@ -2,13 +2,14 @@ const c = @import("c");
 
 const Body = @import("../physics/body.zig").Body;
 const Vec2 = @import("../physics/body.zig").Vec2;
+const Color = @import("color.zig").Color;
 
 pub const Circle = struct {
     body: Body,
     radius: f32,
-    color: c.sfColor,
+    color: Color,
 
-    pub fn init(position: Vec2, velocity: Vec2, radius: f32, color: c.sfColor) Circle {
+    pub fn init(position: Vec2, velocity: Vec2, radius: f32, color: Color) Circle {
         return .{ .body = .{
             .position = position,
             .velocity = velocity,

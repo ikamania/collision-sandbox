@@ -27,7 +27,10 @@ pub const Renderer = struct {
             .x = circle.body.position.x,
             .y = circle.body.position.y,
         });
-        c.sfCircleShape_setFillColor(shape, circle.color);
+        c.sfCircleShape_setFillColor(
+            shape,
+            c.sfColor_fromRGB(circle.color.red, circle.color.green, circle.color.blue),
+        );
 
         c.sfRenderWindow_drawCircleShape(
             self.window,
@@ -48,7 +51,10 @@ pub const Renderer = struct {
             .x = rectangle.body.position.x,
             .y = rectangle.body.position.y,
         });
-        c.sfRectangleShape_setFillColor(shape, rectangle.color);
+        c.sfRectangleShape_setFillColor(
+            shape,
+            c.sfColor_fromRGB(rectangle.color.red, rectangle.color.green, rectangle.color.blue),
+        );
 
         c.sfRenderWindow_drawRectangleShape(
             self.window,
