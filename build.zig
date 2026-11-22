@@ -43,7 +43,7 @@ pub fn build(b: *std.Build) void {
 
     // translate src/c.h into a zig module
     const translate_c = b.addTranslateC(.{
-        .root_source_file = b.path("src/c.h"),
+        .root_source_file = b.path("src/include/c.h"),
         .target = target,
         .optimize = optimize,
     });
