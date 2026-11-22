@@ -1,8 +1,8 @@
 const std = @import("std");
 const c = @import("c");
 
-const Renderer = @import("renderer.zig").Renderer;
-const ObjectManager = @import("physics/objectManager.zig").ObjectManager;
+const Renderer = @import("rendering/renderer.zig").Renderer;
+const ObjectManager = @import("core/objectManager.zig").ObjectManager;
 const PhysicsWorld = @import("physics/physicsWorld.zig").PhysicsWorld;
 
 const Shape = @import("objects/shape.zig").Shape;

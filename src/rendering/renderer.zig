@@ -1,7 +1,7 @@
 const c = @import("c");
-const Shape = @import("objects/shape.zig").Shape;
-const Circle = @import("objects/circle.zig").Circle;
-const Rectangle = @import("objects/rectangle.zig").Rectangle;
+const Shape = @import("../objects/shape.zig").Shape;
+const Circle = @import("../objects/circle.zig").Circle;
+const Rectangle = @import("../objects/rectangle.zig").Rectangle;
 
 pub const Renderer = struct {
     window: *c.sfRenderWindow,

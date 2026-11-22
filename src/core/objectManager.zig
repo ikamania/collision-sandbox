@@ -1,7 +1,7 @@
 const Shape = @import("../objects/shape.zig").Shape;
 
 pub const ObjectManager = struct {
-    shapes: [500]Shape = undefined,
+    shapes: [500]Shape = undefined, // 500 - maximum number of shapes
     shape_count: usize = 0,
 
     pub fn addShape(self: *ObjectManager, shape: Shape) void {
@@ -18,6 +18,6 @@ pub const ObjectManager = struct {
     }
 
     pub fn getShapes(self: *ObjectManager) []Shape {
-        return self.shapes[0..self.shape_count];
+        return self.shapes[0..self.shape_count]; // get slice of initialized shapes only
     }
 };
