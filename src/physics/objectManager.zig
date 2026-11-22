@@ -32,21 +32,14 @@ pub const ObjectManager = struct {
                     .y = body_b.position.y + body_b.velocity.y * dt,
                 };
 
-                // shape collision
                 if (isColliding(
                     a_position,
                     b_position,
                     .{ .x = body_a.width, .y = body_a.height },
                     .{ .x = body_b.width, .y = body_b.height },
-                )) { // !! problem - if shape hits from behind they stop moving.
-                    if (body_a.velocity.x * body_b.velocity.x < 0) {
-                        body_a.velocity.x *= -1;
-                        body_b.velocity.x *= -1;
-                    }
-                    if (body_a.velocity.y * body_b.velocity.y < 0) {
-                        body_a.velocity.y *= -1;
-                        body_b.velocity.y *= -1;
-                    }
+                )) {
+                    resolveAxis(body_a.position.x, body_b.position.x, &body_a.velocity.x, &body_b.velocity.x);
+                    resolveAxis(body_a.position.y, body_b.position.y, &body_a.velocity.y, &body_b.velocity.y);
                 } else {
                     body_a.position = a_position;
                     body_b.position = b_position;
@@ -74,5 +67,25 @@ pub const ObjectManager = struct {
             a_position.x + a_size.x > b_position.x and
             a_position.y < b_position.y + b_size.y and
             a_position.y + a_size.y > b_position.y;
+    }
+
+    fn resolveAxis(
+        pos_a: f32,
+        pos_b: f32,
+        vel_a: *f32,
+        vel_b: *f32,
+    ) void {
+        if (vel_a.* * vel_b.* < 0) {
+            vel_a.* = -vel_a.*;
+            vel_b.* = -vel_b.*;
+        } else if (vel_a.* * vel_b.* > 0) {
+            const a_behind = (pos_a - pos_b) * vel_a.* < 0;
+
+            if (a_behind and @abs(vel_a.*) > @abs(vel_b.*)) {
+                vel_a.* = -vel_a.*;
+            } else if (!a_behind and @abs(vel_b.*) > @abs(vel_a.*)) {
+                vel_b.* = -vel_b.*;
+            }
+        }
     }
 };
