@@ -2,17 +2,15 @@ const Shape = @import("../objects/shape.zig").Shape;
 const Vec2 = @import("body.zig").Vec2;
 const Body = @import("body.zig").Body;
 
-pub const ObjectManager = struct {
-    shapes: []Shape,
-
+pub const PhysicsWorld = struct {
     pub fn update(
-        self: *ObjectManager,
+        shapes: []Shape,
         dt: f32,
         width: f32,
         height: f32,
     ) void {
-        for (self.shapes, 0..) |*shape_a, i| {
-            for (self.shapes[i + 1 ..]) |*shape_b| {
+        for (shapes, 0..) |*shape_a, i| {
+            for (shapes[i + 1 ..]) |*shape_b| {
                 const body_a: *Body = switch (shape_a.*) {
                     .circle => |*circle| &circle.body,
                     .rectangle => |*rectangle| &rectangle.body,
