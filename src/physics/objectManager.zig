@@ -45,19 +45,19 @@ pub const ObjectManager = struct {
                     body_b.position = b_position;
                 }
 
-                // borders !! problem - if shape might get stuck outside border if dt is inconsistent.
-                if (a_position.x < 0 or a_position.x + body_a.width > width) { // a
-                    body_a.velocity.x *= -1;
-                }
-                if (a_position.y < 0 or a_position.y + body_a.height > height) {
-                    body_a.velocity.y *= -1;
-                }
-                if (b_position.x < 0 or b_position.x + body_b.width > width) { // b
-                    body_b.velocity.x *= -1;
-                }
-                if (b_position.y < 0 or b_position.y + body_b.height > height) {
-                    body_b.velocity.y *= -1;
-                }
+                // border
+                resolveBounds(
+                    &body_a.position,
+                    &body_a.velocity,
+                    .{ .x = body_a.width, .y = body_a.height },
+                    .{ .x = width, .y = height },
+                );
+                resolveBounds(
+                    &body_b.position,
+                    &body_b.velocity,
+                    .{ .x = body_b.width, .y = body_b.height },
+                    .{ .x = width, .y = height },
+                );
             }
         }
     }
@@ -86,6 +86,31 @@ pub const ObjectManager = struct {
             } else if (!a_behind and @abs(vel_b.*) > @abs(vel_a.*)) {
                 vel_b.* = -vel_b.*;
             }
+        }
+    }
+
+    fn resolveBounds(
+        position: *Vec2,
+        velocity: *Vec2,
+        size: Vec2,
+        bounds: Vec2,
+    ) void {
+        if (position.x < 0) {
+            position.x = 0;
+            velocity.x = @abs(velocity.x);
+        }
+        if (position.x + size.x > bounds.x) {
+            position.x = bounds.x - size.x;
+            velocity.x = -@abs(velocity.x);
+        }
+
+        if (position.y < 0) {
+            position.y = 0;
+            velocity.y = @abs(velocity.y);
+        }
+        if (position.y + size.y > bounds.y) {
+            position.y = bounds.y - size.y;
+            velocity.y = -@abs(velocity.y);
         }
     }
 };
