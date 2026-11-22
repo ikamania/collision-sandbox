@@ -30,14 +30,29 @@ pub fn main() void {
 
     //
     var shapes = [_]Shape{
-        .{ .circle = Circle.init(.{ .x = 300, .y = 300 }, .{ .x = 100, .y = -200 }, 50, c.sfRed) },
-        .{ .rectangle = Rectangle.init(.{ .x = 200, .y = 200 }, .{ .x = 400, .y = 100 }, 100, 50, c.sfBlue) },
+        .{ .circle = Circle.init(.{ .x = 300, .y = 300 }, .{ .x = 30, .y = -45 }, 25, .{ .red = 255, .green = 0, .blue = 0 }) },
+        .{ .rectangle = Rectangle.init(.{ .x = 200, .y = 200 }, .{ .x = 45, .y = 20 }, 50, 25, .{ .red = 255, .green = 255, .blue = 255 }) },
+        .{ .circle = Circle.init(.{ .x = 500, .y = 150 }, .{ .x = -25, .y = 35 }, 15, .{ .red = 0, .green = 255, .blue = 0 }) },
+        .{ .rectangle = Rectangle.init(.{ .x = 700, .y = 300 }, .{ .x = -40, .y = 30 }, 40, 40, .{ .red = 255, .green = 255, .blue = 0 }) },
+        .{ .circle = Circle.init(.{ .x = 900, .y = 500 }, .{ .x = 40, .y = -30 }, 32, .{ .red = 255, .green = 0, .blue = 255 }) },
+        .{ .rectangle = Rectangle.init(.{ .x = 400, .y = 600 }, .{ .x = 20, .y = -50 }, 60, 20, .{ .red = 0, .green = 255, .blue = 255 }) },
 
-        .{ .circle = Circle.init(.{ .x = 500, .y = 150 }, .{ .x = -180, .y = 120 }, 30, c.sfGreen) },
-        .{ .rectangle = Rectangle.init(.{ .x = 700, .y = 300 }, .{ .x = -250, .y = 180 }, 80, 80, c.sfYellow) },
+        .{ .circle = Circle.init(.{ .x = 150, .y = 400 }, .{ .x = 35, .y = 25 }, 12, .{ .red = 255, .green = 128, .blue = 0 }) },
+        .{ .rectangle = Rectangle.init(.{ .x = 600, .y = 500 }, .{ .x = -30, .y = -40 }, 35, 20, .{ .red = 128, .green = 0, .blue = 255 }) },
+        .{ .circle = Circle.init(.{ .x = 800, .y = 150 }, .{ .x = -45, .y = 35 }, 20, .{ .red = 0, .green = 128, .blue = 255 }) },
+        .{ .rectangle = Rectangle.init(.{ .x = 1000, .y = 400 }, .{ .x = 25, .y = -20 }, 45, 30, .{ .red = 255, .green = 100, .blue = 100 }) },
 
-        .{ .circle = Circle.init(.{ .x = 900, .y = 500 }, .{ .x = 220, .y = -160 }, 65, c.sfMagenta) },
-        .{ .rectangle = Rectangle.init(.{ .x = 400, .y = 600 }, .{ .x = 150, .y = -300 }, 120, 40, c.sfCyan) },
+        .{ .circle = Circle.init(.{ .x = 450, .y = 250 }, .{ .x = -35, .y = -45 }, 18, .{ .red = 100, .green = 255, .blue = 100 }) },
+        .{ .rectangle = Rectangle.init(.{ .x = 250, .y = 550 }, .{ .x = 40, .y = -15 }, 25, 45, .{ .red = 255, .green = 200, .blue = 0 }) },
+        .{ .circle = Circle.init(.{ .x = 1100, .y = 200 }, .{ .x = -20, .y = 40 }, 10, .{ .red = 255, .green = 255, .blue = 255 }) },
+        .{ .rectangle = Rectangle.init(.{ .x = 750, .y = 650 }, .{ .x = -35, .y = -25 }, 30, 30, .{ .red = 0, .green = 200, .blue = 200 }) },
+
+        .{ .circle = Circle.init(.{ .x = 550, .y = 350 }, .{ .x = 45, .y = 20 }, 22, .{ .red = 200, .green = 0, .blue = 100 }) },
+        .{ .rectangle = Rectangle.init(.{ .x = 950, .y = 600 }, .{ .x = -40, .y = -30 }, 50, 15, .{ .red = 150, .green = 150, .blue = 255 }) },
+        .{ .circle = Circle.init(.{ .x = 100, .y = 150 }, .{ .x = 25, .y = 45 }, 14, .{ .red = 255, .green = 150, .blue = 50 }) },
+        .{ .rectangle = Rectangle.init(.{ .x = 1150, .y = 500 }, .{ .x = -45, .y = -20 }, 20, 50, .{ .red = 100, .green = 255, .blue = 200 }) },
+        .{ .circle = Circle.init(.{ .x = 650, .y = 100 }, .{ .x = 35, .y = 40 }, 28, .{ .red = 180, .green = 50, .blue = 255 }) },
+        .{ .rectangle = Rectangle.init(.{ .x = 350, .y = 700 }, .{ .x = 15, .y = -45 }, 40, 20, .{ .red = 255, .green = 80, .blue = 150 }) },
     };
     var objectManager = ObjectManager{
         .shapes = &shapes,
