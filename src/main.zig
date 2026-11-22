@@ -33,13 +33,14 @@ pub fn main() void {
         .{ .circle = Circle.init(
             .{ .x = 300, .y = 300 },
             .{ .x = 100, .y = -200 },
-            25,
+            50,
             c.sfRed,
         ) },
         .{ .rectangle = Rectangle.init(
             .{ .x = 200, .y = 200 },
             .{ .x = 400, .y = 100 },
-            25,
+            100,
+            50,
             c.sfBlue,
         ) },
     };
