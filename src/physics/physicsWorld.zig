@@ -3,7 +3,10 @@ const Vec2 = @import("body.zig").Vec2;
 const Body = @import("body.zig").Body;
 
 pub const PhysicsWorld = struct {
+    gravity: f32 = 980,
+
     pub fn update(
+        self: *PhysicsWorld,
         shapes: []Shape,
         dt: f32,
         width: f32,
@@ -15,11 +18,13 @@ pub const PhysicsWorld = struct {
                     .circle => |*circle| &circle.body,
                     .rectangle => |*rectangle| &rectangle.body,
                 };
+                self.applyGravity(body_a, dt);
 
                 const body_b: *Body = switch (shape_b.*) {
                     .circle => |*circle| &circle.body,
                     .rectangle => |*rectangle| &rectangle.body,
                 };
+                self.applyGravity(body_b, dt);
 
                 const a_position = Vec2{
                     .x = body_a.position.x + body_a.velocity.x * dt,
@@ -49,15 +54,21 @@ pub const PhysicsWorld = struct {
                     &body_a.velocity,
                     .{ .x = body_a.width, .y = body_a.height },
                     .{ .x = width, .y = height },
+                    body_a.restitution,
                 );
                 resolveBounds(
                     &body_b.position,
                     &body_b.velocity,
                     .{ .x = body_b.width, .y = body_b.height },
                     .{ .x = width, .y = height },
+                    body_a.restitution,
                 );
             }
         }
+    }
+
+    fn applyGravity(self: *PhysicsWorld, body: *Body, dt: f32) void {
+        body.velocity.y += self.gravity * dt; // !!
     }
 
     fn isColliding(a_position: Vec2, b_position: Vec2, a_size: Vec2, b_size: Vec2) bool {
@@ -92,23 +103,28 @@ pub const PhysicsWorld = struct {
         velocity: *Vec2,
         size: Vec2,
         bounds: Vec2,
+        restitution: f32,
     ) void {
         if (position.x < 0) {
             position.x = 0;
-            velocity.x = @abs(velocity.x);
+            resolveBounce(&velocity.x, restitution);
         }
         if (position.x + size.x > bounds.x) {
             position.x = bounds.x - size.x;
-            velocity.x = -@abs(velocity.x);
+            resolveBounce(&velocity.x, restitution);
         }
 
         if (position.y < 0) {
             position.y = 0;
-            velocity.y = @abs(velocity.y);
+            resolveBounce(&velocity.y, restitution);
         }
         if (position.y + size.y > bounds.y) {
             position.y = bounds.y - size.y;
-            velocity.y = -@abs(velocity.y);
+            resolveBounce(&velocity.y, restitution);
         }
+    }
+
+    fn resolveBounce(velocity: *f32, restitution: f32) void {
+        velocity.* = -velocity.* * restitution;
     }
 };
