@@ -10,12 +10,13 @@ pub const Rectangle = struct {
     height: f32,
     color: Color,
 
-    pub fn init(position: Vec2, velocity: Vec2, width: f32, height: f32, color: Color) Rectangle {
+    pub fn init(position: Vec2, velocity: Vec2, width: f32, height: f32, color: Color, restitution: f32) Rectangle {
         return .{ .body = .{
             .position = position,
             .velocity = velocity,
             .width = width,
             .height = height,
+            .restitution = restitution,
         }, .width = width, .height = height, .color = color };
     }
 };
