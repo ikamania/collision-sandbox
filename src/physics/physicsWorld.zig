@@ -60,7 +60,7 @@ pub const PhysicsWorld = struct {
                     &body_b.velocity,
                     .{ .x = body_b.width, .y = body_b.height },
                     .{ .x = width, .y = height },
-                    body_a.restitution,
+                    body_b.restitution,
                 );
             }
         }
