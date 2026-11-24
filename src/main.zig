@@ -31,11 +31,12 @@ pub fn main() void {
 
     //
     var objectManager = ObjectManager{};
+    var physicsWorld = PhysicsWorld{};
     //
     objectManager.addShapes(&.{
-        .{ .circle = Circle.init(.{ .x = 300, .y = 300 }, .{ .x = 30, .y = -45 }, 25, .{ .red = 255, .green = 0, .blue = 0 }) },
-        .{ .rectangle = Rectangle.init(.{ .x = 200, .y = 200 }, .{ .x = 45, .y = 20 }, 50, 25, .{ .red = 0, .green = 0, .blue = 255 }) },
-        .{ .circle = Circle.init(.{ .x = 500, .y = 150 }, .{ .x = -25, .y = 35 }, 15, .{ .red = 0, .green = 255, .blue = 0 }) },
+        .{ .circle = Circle.init(.{ .x = 300, .y = 300 }, .{ .x = 30, .y = -45 }, 25, .{ .red = 255, .green = 0, .blue = 0 }, 0.7) },
+        .{ .rectangle = Rectangle.init(.{ .x = 200, .y = 200 }, .{ .x = 45, .y = 20 }, 50, 25, .{ .red = 0, .green = 0, .blue = 255 }, 0.2) },
+        .{ .circle = Circle.init(.{ .x = 500, .y = 150 }, .{ .x = -25, .y = 35 }, 15, .{ .red = 0, .green = 255, .blue = 0 }, 0.5) },
     });
 
     while (c.sfRenderWindow_isOpen(window)) {
@@ -46,7 +47,7 @@ pub fn main() void {
         }
         const dt = c.sfTime_asSeconds(c.sfClock_restart(clock));
 
-        PhysicsWorld.update(objectManager.getShapes(), dt, width, height);
+        physicsWorld.update(objectManager.getShapes(), dt, width, height);
 
         renderer.clear(c.sfWhite);
         renderer.drawShapes(objectManager.getShapes());

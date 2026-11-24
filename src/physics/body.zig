@@ -8,4 +8,5 @@ pub const Body = struct {
     velocity: Vec2,
     width: f32,
     height: f32,
+    restitution: f32, // bounciness
 };

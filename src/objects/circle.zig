@@ -9,12 +9,13 @@ pub const Circle = struct {
     radius: f32,
     color: Color,
 
-    pub fn init(position: Vec2, velocity: Vec2, radius: f32, color: Color) Circle {
+    pub fn init(position: Vec2, velocity: Vec2, radius: f32, color: Color, restitution: f32) Circle {
         return .{ .body = .{
             .position = position,
             .velocity = velocity,
             .width = radius * 2,
             .height = radius * 2,
+            .restitution = restitution,
         }, .radius = radius, .color = color };
     }
 };
