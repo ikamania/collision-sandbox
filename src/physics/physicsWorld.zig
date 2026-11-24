@@ -12,19 +12,18 @@ pub const PhysicsWorld = struct {
         width: f32,
         height: f32,
     ) void {
+        self.applyGravity(shapes, dt);
+
         for (shapes, 0..) |*shape_a, i| {
             for (shapes[i + 1 ..]) |*shape_b| {
                 const body_a: *Body = switch (shape_a.*) {
                     .circle => |*circle| &circle.body,
                     .rectangle => |*rectangle| &rectangle.body,
                 };
-                self.applyGravity(body_a, dt);
-
                 const body_b: *Body = switch (shape_b.*) {
                     .circle => |*circle| &circle.body,
                     .rectangle => |*rectangle| &rectangle.body,
                 };
-                self.applyGravity(body_b, dt);
 
                 const a_position = Vec2{
                     .x = body_a.position.x + body_a.velocity.x * dt,
@@ -67,8 +66,15 @@ pub const PhysicsWorld = struct {
         }
     }
 
-    fn applyGravity(self: *PhysicsWorld, body: *Body, dt: f32) void {
-        body.velocity.y += self.gravity * dt; // !!
+    fn applyGravity(self: *PhysicsWorld, shapes: []Shape, dt: f32) void {
+        for (shapes) |*shape| {
+            const body: *Body = switch (shape.*) {
+                .circle => |*circle| &circle.body,
+                .rectangle => |*rectangle| &rectangle.body,
+            };
+
+            body.velocity.y += self.gravity * dt; // !!
+        }
     }
 
     fn isColliding(a_position: Vec2, b_position: Vec2, a_size: Vec2, b_size: Vec2) bool {
