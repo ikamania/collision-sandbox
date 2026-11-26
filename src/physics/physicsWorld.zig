@@ -2,12 +2,16 @@ const Shape = @import("../objects/shape.zig").Shape;
 const Vec2 = @import("body.zig").Vec2;
 const Body = @import("body.zig").Body;
 
+const std = @import("std");
+
 const GRAVITY: f32 = 9.8;
 
 const Collision = struct {
     normal: Vec2,
     penetration: f32,
 };
+
+var collision_count: u64 = 0;
 
 pub const PhysicsWorld = struct {
     pub fn applyGravity(shapes: []Shape, dt: f32) void {
@@ -35,6 +39,8 @@ pub const PhysicsWorld = struct {
                 const body_b: *Body = shape_b.getBody();
 
                 if (detectCollision(body_a, body_b)) |collision| {
+                    collision_count += 1;
+
                     separateBodies(body_a, body_b, collision);
                     resolveCollision(body_a, body_b, collision);
                 }
@@ -43,6 +49,7 @@ pub const PhysicsWorld = struct {
                 resolveBounds(body_b, width, height);
             }
         }
+        std.debug.print("{d}\n", .{collision_count});
     }
 
     fn detectCollision(body_a: *Body, body_b: *Body) ?Collision {
@@ -126,6 +133,8 @@ pub const PhysicsWorld = struct {
         if (body.position.x < 0) {
             body.position.x = 0;
             body.velocity.x = -body.velocity.x * body.restitution;
+
+            collision_count += 1;
         }
 
         if (body.position.x + body.width > width) {

@@ -34,8 +34,28 @@ pub fn main() void {
     var objectManager = ObjectManager{};
     //
     objectManager.addShapes(&.{
-        .{ .rectangle = Rectangle.init(.{ .x = 300, .y = 200 }, .{ .x = 0, .y = 40 }, 50, 25, .{ .red = 0, .green = 0, .blue = 255 }, 0.2, 18.0) },
-        .{ .rectangle = Rectangle.init(.{ .x = 300, .y = 300 }, .{ .x = 0, .y = -40 }, 15, 30, .{ .red = 0, .green = 255, .blue = 0 }, 0.5, 17.0) },
+        .{
+            .rectangle = Rectangle.init(
+                .{ .x = 100, .y = height },
+                .{ .x = 0, .y = 0 },
+                20,
+                40,
+                .{ .red = 255, .green = 0, .blue = 0 },
+                1.0,
+                1.0,
+            ),
+        },
+        .{
+            .rectangle = Rectangle.init(
+                .{ .x = 400, .y = height },
+                .{ .x = -100, .y = 0 },
+                100,
+                80,
+                .{ .red = 0, .green = 0, .blue = 255 },
+                1.0,
+                100.0,
+            ),
+        },
     });
 
     while (c.sfRenderWindow_isOpen(window)) {
@@ -46,7 +66,7 @@ pub fn main() void {
         }
         const dt = c.sfTime_asSeconds(c.sfClock_restart(clock));
 
-        PhysicsWorld.applyGravity(objectManager.getShapes(), dt);
+        // PhysicsWorld.applyGravity(objectManager.getShapes(), dt);
         PhysicsWorld.integratePositions(objectManager.getShapes(), dt);
         PhysicsWorld.handleCollisions(objectManager.getShapes(), width, height);
 
