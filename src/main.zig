@@ -48,7 +48,7 @@ pub fn main() void {
 
         PhysicsWorld.applyGravity(objectManager.getShapes(), dt);
         PhysicsWorld.integratePositions(objectManager.getShapes(), dt);
-        PhysicsWorld.handleCollisions(objectManager.getShapes());
+        PhysicsWorld.handleCollisions(objectManager.getShapes(), width, height);
 
         renderer.clear(c.sfWhite);
         renderer.drawShapes(objectManager.getShapes());

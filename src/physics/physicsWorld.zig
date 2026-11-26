@@ -27,7 +27,7 @@ pub const PhysicsWorld = struct {
         }
     }
 
-    pub fn handleCollisions(shapes: []Shape) void {
+    pub fn handleCollisions(shapes: []Shape, width: f32, height: f32) void {
         // resolving the collision between A and B can affect the collision between B and C!!
         for (shapes, 0..) |*shape_a, i| {
             for (shapes[i + 1 ..]) |*shape_b| {
@@ -38,6 +38,9 @@ pub const PhysicsWorld = struct {
                     separateBodies(body_a, body_b, collision);
                     resolveCollision(body_a, body_b, collision);
                 }
+                // !!
+                resolveBounds(body_a, width, height);
+                resolveBounds(body_b, width, height);
             }
         }
     }
@@ -113,5 +116,31 @@ pub const PhysicsWorld = struct {
 
         body_b.velocity.x -= j * collision.normal.x * inv_mass_b;
         body_b.velocity.y -= j * collision.normal.y * inv_mass_b;
+    }
+
+    fn resolveBounds(
+        body: *Body,
+        width: f32,
+        height: f32,
+    ) void {
+        if (body.position.x < 0) {
+            body.position.x = 0;
+            body.velocity.x = -body.velocity.x * body.restitution;
+        }
+
+        if (body.position.x + body.width > width) {
+            body.position.x = width - body.width;
+            body.velocity.x = -body.velocity.x * body.restitution;
+        }
+
+        if (body.position.y < 0) {
+            body.position.y = 0;
+            body.velocity.y = -body.velocity.y * body.restitution;
+        }
+
+        if (body.position.y + body.height > height) {
+            body.position.y = height - body.height;
+            body.velocity.y = -body.velocity.y * body.restitution;
+        }
     }
 };
