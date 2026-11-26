@@ -20,6 +20,7 @@ pub fn main() void {
         0,
         null,
     ) orelse return; // handle optional pointer return
+    c.sfRenderWindow_setFramerateLimit(window, 60);
     defer c.sfRenderWindow_destroy(window);
 
     var renderer = Renderer.init(window);
@@ -33,9 +34,8 @@ pub fn main() void {
     var objectManager = ObjectManager{};
     //
     objectManager.addShapes(&.{
-        .{ .circle = Circle.init(.{ .x = 300, .y = 300 }, .{ .x = 30, .y = -45 }, 25, .{ .red = 255, .green = 0, .blue = 0 }, 0.7) },
-        .{ .rectangle = Rectangle.init(.{ .x = 200, .y = 200 }, .{ .x = 45, .y = 20 }, 50, 25, .{ .red = 0, .green = 0, .blue = 255 }, 0.2) },
-        .{ .circle = Circle.init(.{ .x = 500, .y = 150 }, .{ .x = -25, .y = 35 }, 15, .{ .red = 0, .green = 255, .blue = 0 }, 0.5) },
+        .{ .rectangle = Rectangle.init(.{ .x = 300, .y = 200 }, .{ .x = 0, .y = 40 }, 50, 25, .{ .red = 0, .green = 0, .blue = 255 }, 0.2, 18.0) },
+        .{ .rectangle = Rectangle.init(.{ .x = 300, .y = 300 }, .{ .x = 0, .y = -40 }, 15, 30, .{ .red = 0, .green = 255, .blue = 0 }, 0.5, 17.0) },
     });
 
     while (c.sfRenderWindow_isOpen(window)) {
@@ -48,6 +48,7 @@ pub fn main() void {
 
         PhysicsWorld.applyGravity(objectManager.getShapes(), dt);
         PhysicsWorld.integratePositions(objectManager.getShapes(), dt);
+        PhysicsWorld.handleCollisions(objectManager.getShapes());
 
         renderer.clear(c.sfWhite);
         renderer.drawShapes(objectManager.getShapes());
