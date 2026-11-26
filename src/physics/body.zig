@@ -9,4 +9,5 @@ pub const Body = struct {
     width: f32,
     height: f32,
     restitution: f32, // bounciness
+    mass: f32,
 };
