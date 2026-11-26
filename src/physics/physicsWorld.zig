@@ -2,17 +2,16 @@ const Shape = @import("../objects/shape.zig").Shape;
 const Vec2 = @import("body.zig").Vec2;
 const Body = @import("body.zig").Body;
 
-pub const PhysicsWorld = struct {
-    gravity: f32 = 980,
+const GRAVITY: f32 = 980.0;
 
+pub const PhysicsWorld = struct {
     pub fn update(
-        self: *PhysicsWorld,
         shapes: []Shape,
         dt: f32,
         width: f32,
         height: f32,
     ) void {
-        self.applyGravity(shapes, dt);
+        applyGravity(shapes, dt);
 
         for (shapes, 0..) |*shape_a, i| {
             for (shapes[i + 1 ..]) |*shape_b| {
@@ -66,16 +65,22 @@ pub const PhysicsWorld = struct {
         }
     }
 
-    fn applyGravity(self: *PhysicsWorld, shapes: []Shape, dt: f32) void {
+    pub fn applyGravity(shapes: []Shape, dt: f32) void {
         for (shapes) |*shape| {
-            const body: *Body = switch (shape.*) {
-                .circle => |*circle| &circle.body,
-                .rectangle => |*rectangle| &rectangle.body,
-            };
-
-            body.velocity.y += self.gravity * dt; // !!
+            shape.getBody().velocity.y += GRAVITY * dt; // !!
         }
     }
+
+    pub fn integratePositions(shapes: []Shape, dt: f32) void {
+        for (shapes) |*shape| {
+            const body = shape.getBody();
+
+            body.position.x += body.velocity.x * dt;
+            body.position.y += body.velocity.y * dt;
+        }
+    }
+
+    pub fn relosveCollisions() void {}
 
     fn isColliding(a_position: Vec2, b_position: Vec2, a_size: Vec2, b_size: Vec2) bool {
         return a_position.x < b_position.x + b_size.x and

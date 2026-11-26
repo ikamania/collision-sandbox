@@ -31,7 +31,6 @@ pub fn main() void {
 
     //
     var objectManager = ObjectManager{};
-    var physicsWorld = PhysicsWorld{};
     //
     objectManager.addShapes(&.{
         .{ .circle = Circle.init(.{ .x = 300, .y = 300 }, .{ .x = 30, .y = -45 }, 25, .{ .red = 255, .green = 0, .blue = 0 }, 0.7) },
@@ -47,7 +46,8 @@ pub fn main() void {
         }
         const dt = c.sfTime_asSeconds(c.sfClock_restart(clock));
 
-        physicsWorld.update(objectManager.getShapes(), dt, width, height);
+        PhysicsWorld.applyGravity(objectManager.getShapes(), dt);
+        PhysicsWorld.integratePositions(objectManager.getShapes(), dt);
 
         renderer.clear(c.sfWhite);
         renderer.drawShapes(objectManager.getShapes());
