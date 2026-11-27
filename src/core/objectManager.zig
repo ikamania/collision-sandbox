@@ -1,7 +1,7 @@
 const Shape = @import("../objects/shape.zig").Shape;
 
 pub const ObjectManager = struct {
-    shapes: [500]Shape = undefined, // 500 - maximum number of shapes
+    shapes: [1000]Shape = undefined, // 1000 - maximum number of shapes
     shape_count: usize = 0,
 
     pub fn addShape(self: *ObjectManager, shape: Shape) void {
