@@ -33,10 +33,31 @@ pub fn main() void {
     //
     var objectManager = ObjectManager{};
     //
-    objectManager.addShapes(&.{
-        .{ .rectangle = Rectangle.init(.{ .x = 300, .y = 200 }, .{ .x = 0, .y = 40 }, 50, 25, .{ .red = 0, .green = 0, .blue = 255 }, 0.2, 18.0) },
-        .{ .rectangle = Rectangle.init(.{ .x = 300, .y = 300 }, .{ .x = 0, .y = -40 }, 15, 30, .{ .red = 0, .green = 255, .blue = 0 }, 0.5, 17.0) },
-    });
+    var p = std.Random.DefaultPrng.init(42);
+    const rand = p.random();
+
+    for (0..1000) |_| {
+        const x = rand.float(f32) * width;
+        const y = rand.float(f32) * height;
+
+        const v = 1000.0;
+        const v_x = (rand.float(f32) * 2 - 1) * v;
+        const v_y = (rand.float(f32) * 2 - 1) * v;
+
+        const s = 3;
+
+        objectManager.addShape(
+            .{ .rectangle = Rectangle.init(
+                .{ .x = x, .y = y },
+                .{ .x = v_x, .y = v_y },
+                s,
+                s,
+                .{ .red = 255, .green = 0, .blue = 0 },
+                0.7,
+                18.0,
+            ) },
+        );
+    }
 
     while (c.sfRenderWindow_isOpen(window)) {
         while (c.sfRenderWindow_pollEvent(window, &event)) {
